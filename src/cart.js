@@ -46,8 +46,22 @@ function removeFromCart(cartArr, id) {
   const filteredArr = cartArr.filter((item) => item.id !== id);
   return filteredArr;
 }
-function calculateCartSubtotal() {
-  return notImplemented();
+function calculateCartSubtotal(cartArr) {
+  if (!Array.isArray(cartArr)) {
+    throw new Error();
+  }
+
+  let sum = 0;
+
+  cartArr.forEach((item) =>
+    item.price && item.quantity > 0
+      ? (sum += item.price * item.quantity)
+      : item.price
+        ? (sum += item.price)
+        : null,
+  );
+
+  return sum;
 }
 function calculateOrderTotal() {
   return notImplemented();
