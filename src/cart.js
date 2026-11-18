@@ -1,9 +1,9 @@
 function notImplemented() {
-  throw new Error('Корзина ещё не реализована. Сначала прочитайте тесты.');
+  throw new Error("Корзина ещё не реализована. Сначала прочитайте тесты.");
 }
 
 function addToCart(cartArr, product, quantity) {
-  if (quantity < 1 || Number.isNaN(quantity) || product.stock < quantity || !Number.isInteger(quantity)) {
+  if (quantity < 1 || product.stock < quantity || !Number.isInteger(quantity)) {
     throw new RangeError();
   }
 
@@ -23,12 +23,42 @@ function addToCart(cartArr, product, quantity) {
 
   return cartArr;
 }
-function changeQuantity() { return notImplemented(); }
-function removeFromCart() { return notImplemented(); }
-function calculateCartSubtotal() { return notImplemented(); }
-function calculateOrderTotal() { return notImplemented(); }
 
-const cartApi = { addToCart, changeQuantity, removeFromCart, calculateCartSubtotal, calculateOrderTotal };
+function changeQuantity(cartArr, id, quantity) {
+  if (quantity < 1 || !Number.isInteger(quantity)) {
+    throw new RangeError();
+  }
 
-if (typeof module !== 'undefined') module.exports = cartApi;
-if (typeof window !== 'undefined') window.cartApi = cartApi;
+  const existingProduct = cartArr.find((item) => item.id === id);
+
+  if (existingProduct !== undefined) {
+    if (quantity > existingProduct.stock) {
+      throw new RangeError();
+    }
+
+    existingProduct.quantity = quantity;
+  }
+
+  return cartArr;
+}
+
+function removeFromCart() {
+  return notImplemented();
+}
+function calculateCartSubtotal() {
+  return notImplemented();
+}
+function calculateOrderTotal() {
+  return notImplemented();
+}
+
+const cartApi = {
+  addToCart,
+  changeQuantity,
+  removeFromCart,
+  calculateCartSubtotal,
+  calculateOrderTotal,
+};
+
+if (typeof module !== "undefined") module.exports = cartApi;
+if (typeof window !== "undefined") window.cartApi = cartApi;
